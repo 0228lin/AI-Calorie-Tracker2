@@ -120,14 +120,14 @@
             }
         }
 
-        // Function to call the Gemini API for a structured JSON response
+        // Function to call the proxy for a structured JSON response
         async function getNutritionalData(foodItem) {
             const prompt = `Provide the nutritional data for "${foodItem}" as a single JSON object. The object must contain the following keys: "food_item" (string), "calories" (number), "protein" (number), "carbohydrates" (number), and "fat" (number). The units should be kcal and grams. If you cannot find the data, return a JSON with a single key "error" and a description. Do not include any other text or conversational elements outside of the JSON object.`;
             
-            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            // The API call is now directed to the backend proxy
+            const apiUrl = '/api/gemini';
             const payload = {
-                contents: chatHistory,
-                // Re-enabling the structured JSON response for reliability.
+                prompt,
                 generationConfig: {
                     responseMimeType: "application/json",
                     responseSchema: {
@@ -144,9 +144,6 @@
                 }
             };
             
-            const apiKey = "AIzaSyDWvOfkxwS7LHBKRFO3SKl9BKTibfnZGls";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            
             try {
                 let response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
@@ -155,7 +152,7 @@
                 });
                 
                 let result = await response.json();
-                if (result.candidates && result.candidates.length > 0 &&
+                if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const jsonString = result.candidates[0].content.parts[0].text;
@@ -178,7 +175,7 @@
             }
         }
         
-        // Function to call the Gemini API for a text-based analysis
+        // Function to call the proxy for a text-based analysis
         async function getAIAnalysis(userData) {
             const prompt = `
             Analyze the following user data and provide a detailed, actionable diet analysis.
@@ -201,10 +198,9 @@
             Please provide the analysis in a single, well-structured paragraph or a short list.
             `;
             
-            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-            const payload = { contents: chatHistory };
-            const apiKey = "AIzaSyDWvOfkxwS7LHBKRFO3SKl9BKTibfnZGls";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            // The API call is now directed to the backend proxy
+            const apiUrl = '/api/gemini';
+            const payload = { prompt };
             
             try {
                 let response = await fetchWithExponentialBackoff(apiUrl, {
@@ -213,7 +209,7 @@
                     body: JSON.stringify(payload)
                 });
                 let result = await response.json();
-                if (result.candidates && result.candidates.length > 0 &&
+                if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     return result.candidates[0].content.parts[0].text;
