@@ -120,9 +120,6 @@ python app.py
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-
-That's All\!\!\! 
-
 -----
 
 *Disclaimer: This program is for informational purposes only and should not replace professional medical advice. Always consult a healthcare professional before making changes to your diet or exercise routine.*
