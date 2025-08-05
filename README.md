@@ -44,7 +44,7 @@ This tool is perfect for anyone who wants to monitor their nutrition, understand
 
 ## 🚀 Demo
 
-Here is a quick demo of the app. We hope you enjoy it.
+Here is a quick demo of the app. I hope you enjoy it.
 
 > [The Demo Link](https://0228lin.github.io/AI-Calorie-Tracker/)
 > <br>
@@ -74,7 +74,7 @@ _Many Thanks to all the `Stargazers` who has supported this project with stars(�
 ## 📚 How to Use `AI-Calorie-Tracker`
 
 1.  `Go` to the **[live demo page](https://0228lin.github.io/AI-Calorie-Tracker/)**.
-2.  `Enter` your food items or meals into the text input box.
+2.  `Enter` your height, weight and food items into the text input box.
 3.  `Click` on the **"Analyze"** button.
 4.  The AI will process your input and display the nutritional information and recommendations below the form.
 5.  You can continue to add more food items or clear the form to start a new entry.
