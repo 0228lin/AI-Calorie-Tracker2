@@ -11,7 +11,7 @@ A powerful and intelligent calorie and nutrition tracker that leverages a large 
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/0228lin/AI-Calorie-Tracker.git](https://github.com/0228lin/AI-Calorie-Tracker.git)
+   git clone https://github.com/0228lin/AI-Calorie-Tracker.git
    cd AI-Calorie-Tracker
 
 2.  Create a virtual environment and activate it:
