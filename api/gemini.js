@@ -1,4 +1,3 @@
-// This import is crucial for your serverless function to work.
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(request, response) {
