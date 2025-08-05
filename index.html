@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calorie Tracker</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4 font-sans">
+
+    <!-- Main Container -->
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg space-y-6">
+
+        <header class="text-center">
+            <h1 class="text-3xl font-bold text-gray-800">AI Calorie Tracker</h1>
+            <p class="text-gray-500 mt-2">Get an AI-powered analysis of your daily diet.</p>
+        </header>
+
+        <!-- User Input Form -->
+        <form id="tracker-form" class="space-y-4">
+            <div>
+                <label for="height" class="block text-sm font-medium text-gray-700">Height (cm)</label>
+                <input type="text" id="height" name="height" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                <input type="text" id="weight" name="weight" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+            </div>
+            <div>
+                <label for="food-items" class="block text-sm font-medium text-gray-700">Food Items Consumed Today (one item per line)</label>
+                <textarea id="food-items" name="food-items" rows="6" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500" placeholder="e.g., 1 large apple&#10;100g cooked chicken breast&#10;1 cup of brown rice"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-md font-semibold hover:bg-emerald-700 transition-colors shadow-md">
+                Get Analysis
+            </button>
+        </form>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="hidden text-center p-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-500 mx-auto"></div>
+            <p class="text-gray-500 mt-2">Analyzing your diet with AI...</p>
+        </div>
+
+        <!-- Result Display Section -->
+        <div id="results" class="hidden space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">Your Daily Summary</h2>
+            <div id="summary-details" class="space-y-2 text-gray-700">
+                <!-- Summary details will be populated here by JavaScript -->
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">AI Diet Analysis & Recommendations</h2>
+            <div id="ai-analysis" class="bg-gray-100 p-4 rounded-lg text-gray-800 whitespace-pre-wrap">
+                <!-- AI analysis will be populated here -->
+            </div>
+        </div>
+
+        <!-- Error/Message Box -->
+        <div id="message-box" class="hidden text-center p-4 bg-red-100 text-red-700 rounded-md">
+            <!-- Messages will be populated here -->
+        </div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('tracker-form');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const resultsDiv = document.getElementById('results');
+        const summaryDetails = document.getElementById('summary-details');
+        const aiAnalysisDiv = document.getElementById('ai-analysis');
+        const messageBox = document.getElementById('message-box');
+        
+        // Hide a specific element
+        const hideElement = (element) => element.classList.add('hidden');
+        // Show a specific element
+        const showElement = (element) => element.classList.remove('hidden');
+
+        // Display a message in the message box
+        const showMessage = (message, type = 'error') => {
+            messageBox.textContent = message;
+            if (type === 'error') {
+                messageBox.className = 'text-center p-4 bg-red-100 text-red-700 rounded-md';
+            } else {
+                messageBox.className = 'text-center p-4 bg-green-100 text-green-700 rounded-md';
+            }
+            showElement(messageBox);
+        };
+        
+        // Function to call the Gemini API for a structured JSON response
+        async function getNutritionalData(foodItem) {
+            const prompt = `Provide the nutritional data for "${foodItem}". Respond with a JSON object containing the following keys: "food_item", "calories", "protein", "carbohydrates", and "fat". The values should be numerical (calories in kcal, macros in grams). If you cannot find the data, return a JSON with a single key "error" and a description.`;
+            
+            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = {
+                contents: chatHistory,
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "food_item": { "type": "STRING" },
+                            "calories": { "type": "NUMBER" },
+                            "protein": { "type": "NUMBER" },
+                            "carbohydrates": { "type": "NUMBER" },
+                            "fat": { "type": "NUMBER" }
+                        },
+                        "propertyOrdering": ["food_item", "calories", "protein", "carbohydrates", "fat"]
+                    }
+                }
+            };
+            
+            const apiKey = ""; // Canvas will provide this API key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            try {
+                let response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                let result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const jsonString = result.candidates[0].content.parts[0].text;
+                    const parsedData = JSON.parse(jsonString);
+                    // Check for a specific 'error' key in the response from the API
+                    if (parsedData.error) {
+                        console.error(`Error from API: ${parsedData.error}`);
+                        return null;
+                    }
+                    return parsedData;
+                }
+            } catch (error) {
+                console.error('Error fetching nutritional data:', error);
+                return null;
+            }
+        }
+        
+        // Function to call the Gemini API for a text-based analysis
+        async function getAIAnalysis(userData) {
+            const prompt = `
+            Analyze the following user data and provide a detailed, actionable diet analysis.
+            The analysis should include:
+            1. A summary of the user's current status (BMI, weight category).
+            2. Comments on the macronutrient distribution (calories, protein, carbs, fat) and whether it is balanced for their BMI.
+            3. Specific, practical suggestions for improvement (e.g., "increase protein intake", "reduce fat consumption", "add more vegetables").
+            4. A clear, friendly, and non-judgmental tone.
+
+            User Data:
+            - Height: ${userData.height_m} meters
+            - Weight: ${userData.weight_kg} kg
+            - BMI: ${userData.bmi.toFixed(2)}
+            - BMI Category: ${userData.bmi_category}
+            - Total Calories: ${userData.total_calories.toFixed(2)} kcal
+            - Total Protein: ${userData.total_protein.toFixed(2)} g
+            - Total Carbohydrates: ${userData.total_carbs.toFixed(2)} g
+            - Total Fat: ${userData.total_fat.toFixed(2)} g
+            
+            Please provide the analysis in a single, well-structured paragraph or a short list.
+            `;
+            
+            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Canvas will provide this API key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            try {
+                let response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                let result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                }
+            } catch (error) {
+                console.error('Error fetching AI analysis:', error);
+                return "An error occurred while getting the AI analysis. Please try again.";
+            }
+        }
+
+        // Main form submission handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset UI states
+            hideElement(resultsDiv);
+            hideElement(messageBox);
+            showElement(loadingIndicator);
+
+            try {
+                // Get user input from the form
+                const height_cm = parseFloat(document.getElementById('height').value);
+                const weight_kg = parseFloat(document.getElementById('weight').value);
+                const foodItemsInput = document.getElementById('food-items').value;
+
+                if (isNaN(height_cm) || isNaN(weight_kg) || height_cm <= 0 || weight_kg <= 0) {
+                    throw new Error("Please enter valid, positive numbers for height and weight.");
+                }
+
+                const foodItemsArray = foodItemsInput.split('\n').map(item => item.trim()).filter(item => item !== '');
+                if (foodItemsArray.length === 0) {
+                    throw new Error("Please enter at least one food item.");
+                }
+
+                // Fetch nutritional data for each food item
+                let totalCalories = 0;
+                let totalProtein = 0;
+                let totalCarbs = 0;
+                let totalFat = 0;
+                const fetchedFoodData = [];
+
+                for (const item of foodItemsArray) {
+                    const data = await getNutritionalData(item);
+                    if (data) {
+                        totalCalories += data.calories || 0;
+                        totalProtein += data.protein || 0;
+                        totalCarbs += data.carbohydrates || 0;
+                        totalFat += data.fat || 0;
+                        fetchedFoodData.push(data);
+                    }
+                }
+                
+                if (fetchedFoodData.length === 0) {
+                     throw new Error("Could not find nutritional data for any of the food items you listed. Please try with different descriptions.");
+                }
+
+                // Calculate BMI and prepare user data
+                const height_m = height_cm / 100;
+                const bmi = weight_kg / (height_m * height_m);
+                const bmi_category = bmi < 18.5 ? "Underweight" :
+                                     bmi < 25 ? "Normal weight" :
+                                     bmi < 30 ? "Overweight" : "Obese";
+
+                const userData = {
+                    height_m,
+                    weight_kg,
+                    bmi,
+                    bmi_category,
+                    total_calories: totalCalories,
+                    total_protein: totalProtein,
+                    total_carbs: totalCarbs,
+                    total_fat: totalFat
+                };
+
+                // Get AI analysis
+                const aiAnalysisText = await getAIAnalysis(userData);
+
+                // Populate and display results
+                summaryDetails.innerHTML = `
+                    <p><strong>Height:</strong> ${height_cm} cm</p>
+                    <p><strong>Weight:</strong> ${weight_kg} kg</p>
+                    <p><strong>BMI:</strong> ${bmi.toFixed(2)} (${bmi_category})</p>
+                    <p><strong>Total Calories:</strong> ${totalCalories.toFixed(2)} kcal</p>
+                    <p><strong>Total Protein:</strong> ${totalProtein.toFixed(2)} g</p>
+                    <p><strong>Total Carbohydrates:</strong> ${totalCarbs.toFixed(2)} g</p>
+                    <p><strong>Total Fat:</strong> ${totalFat.toFixed(2)} g</p>
+                `;
+                aiAnalysisDiv.textContent = aiAnalysisText;
+
+                hideElement(loadingIndicator);
+                showElement(resultsDiv);
+            } catch (error) {
+                console.error(error);
+                hideElement(loadingIndicator);
+                showMessage(error.message || "An unexpected error occurred. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
