@@ -137,23 +137,22 @@
                     }
                 }
             };
-
-            // This is the new log to see if the fetch call is being made.
-            console.log('Attempting to fetch nutritional data from /api/gemini with payload:', payload);
             
+            console.log('Attempting to fetch nutritional data from /api/gemini');
+
             try {
-                let response = await fetchWithExponentialBackoff(apiUrl, {
+                const response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
+                
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(`API call failed with status ${response.status}: ${errorText}`);
                 }
                 
-                let result = await response.json();
+                const result = await response.json();
                 
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
@@ -188,8 +187,8 @@
                     }
                 }
             } catch (error) {
-                console.error('Error fetching nutritional data:', error);
-                throw error;
+                console.error('Network or routing error fetching nutritional data:', error);
+                throw new Error(`An error occurred while attempting to connect to the server: ${error.message}`);
             }
             return null;
         }
@@ -220,7 +219,7 @@
             const payload = { prompt };
             
             try {
-                let response = await fetchWithExponentialBackoff(apiUrl, {
+                const response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -231,14 +230,14 @@
                     throw new Error(`API call failed with status ${response.status}: ${errorText}`);
                 }
 
-                let result = await response.json();
+                const result = await response.json();
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     return result.candidates[0].content.parts[0].text;
                 }
             } catch (error) {
-                console.error('Error fetching AI analysis:', error);
+                console.error('Network or routing error fetching AI analysis:', error);
                 return "An error occurred while getting the AI analysis. Please try again.";
             }
         }
