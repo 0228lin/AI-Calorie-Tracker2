@@ -52,7 +52,7 @@ Here is a quick demo of the app. We hope you enjoy it.
   <img alt="View Demo" src="https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen"/>
 </a>
 
-Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.
+Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.  
 _Many Thanks to all the `Stargazers` who has supported this project with stars(⭐)_
 
 [![Stargazers repo roster for @0228lin/AI-Calorie-Tracker](https://reporoster.com/stars/0228lin/AI-Calorie-Tracker)](https://github.com/0228lin/AI-Calorie-Tracker/stargazers#gh-light-mode-only)
