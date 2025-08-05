@@ -11,7 +11,7 @@ A powerful and intelligent calorie and nutrition tracker that leverages a large 
 
 ## Live Demo
 <br>
-[![View Demo](https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen)](https://your-demo-url.com)
+![View Demo](https://your-demo-url.com)
 
 A live version of this application is available for you to try directly in your browser.
 
