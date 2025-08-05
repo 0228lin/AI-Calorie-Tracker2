@@ -155,9 +155,10 @@
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    const jsonString = result.candidates[0].content.parts[0].text;
+                    let jsonString = result.candidates[0].content.parts[0].text;
                     
                     try {
+                        // First, try to parse the string directly.
                         const parsedData = JSON.parse(jsonString);
                         if (parsedData.error) {
                             console.error(`Error from API: ${parsedData.error}`);
@@ -165,7 +166,23 @@
                         }
                         return parsedData;
                     } catch (e) {
-                        console.error('Failed to parse JSON from API response:', jsonString, e);
+                        // If direct parsing fails, try to extract a JSON code block from the response.
+                        console.error('Failed to parse JSON directly. Attempting to extract from markdown block:', jsonString);
+                        const codeBlockMatch = jsonString.match(/```json\n([\s\S]*?)\n```/);
+                        if (codeBlockMatch && codeBlockMatch[1]) {
+                            try {
+                                const extractedJson = JSON.parse(codeBlockMatch[1]);
+                                if (extractedJson.error) {
+                                    console.error(`Error from API: ${extractedJson.error}`);
+                                    return null;
+                                }
+                                return extractedJson;
+                            } catch (e2) {
+                                console.error('Failed to parse JSON from extracted markdown block:', e2);
+                                return null;
+                            }
+                        }
+                        console.error('Failed to parse JSON from both direct string and markdown block.');
                         return null;
                     }
                 }
