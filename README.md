@@ -8,6 +8,13 @@ A powerful and intelligent calorie and nutrition tracker that leverages a large 
 - **AI-Powered Analysis:** Acts as a personal diet assistant, providing detailed feedback on your diet and actionable recommendations for improvement.
 - **Modular and Extensible:** The code is structured for easy modification and is a great foundation for further development.
 
+
+## Live Demo
+<br>
+[![View Demo](https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen)](https://your-demo-url.com)
+
+A live version of this application is available for you to try directly in your browser.
+
 ## Installation
 1. Clone the repository:
    ```bash
@@ -50,6 +57,7 @@ The program will guide you to enter your personal details and daily food intake,
   - `ai_calorie_tracker/ai_analysis/nutritional_data_fetcher.py`: Manages the communication with the AI to get food data.
   - `ai_calorie_tracker/ai_analysis/gemini_interface.py`: Handles the AI model integration for the final analysis.
   - `ai_calorie_tracker/main.py`: The main program entry point.
+
 
 ## Contributing
 
