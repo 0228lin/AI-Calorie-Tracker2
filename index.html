@@ -35,11 +35,11 @@
         <form id="tracker-form" class="space-y-4">
             <div>
                 <label for="height" class="block text-sm font-medium text-gray-700">Height (cm)</label>
-                <input type="text" id="height" name="height" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                <input type="number" id="height" name="height" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
             </div>
             <div>
                 <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
-                <input type="text" id="weight" name="weight" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                <input type="number" id="weight" name="weight" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
             </div>
             <div>
                 <label for="food-items" class="block text-sm font-medium text-gray-700">Food Items Consumed Today (one item per line)</label>
@@ -100,6 +100,26 @@
             showElement(messageBox);
         };
         
+        // Helper function for exponential backoff retry logic
+        async function fetchWithExponentialBackoff(url, options, retries = 3, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 429 && retries > 0) {
+                    console.log(`Rate limit hit, retrying in ${delay}ms...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithExponentialBackoff(url, options, retries - 1, delay * 2);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    console.error(`Fetch failed, retrying in ${delay}ms...`, error);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithExponentialBackoff(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
         // Function to call the Gemini API for a structured JSON response
         async function getNutritionalData(foodItem) {
             const prompt = `Provide the nutritional data for "${foodItem}". Respond with a JSON object containing the following keys: "food_item", "calories", "protein", "carbohydrates", and "fat". The values should be numerical (calories in kcal, macros in grams). If you cannot find the data, return a JSON with a single key "error" and a description.`;
@@ -123,11 +143,11 @@
                 }
             };
             
-            const apiKey = ""; // Canvas will provide this API key
+            const apiKey = "AIzaSyDWvOfkxwS7LHBKRFO3SKl9BKTibfnZGls";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             
             try {
-                let response = await fetch(apiUrl, {
+                let response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -177,11 +197,11 @@
             
             const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = { contents: chatHistory };
-            const apiKey = ""; // Canvas will provide this API key
+            const apiKey = "AIzaSyDWvOfkxwS7LHBKRFO3SKl9BKTibfnZGls";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             
             try {
-                let response = await fetch(apiUrl, {
+                let response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
