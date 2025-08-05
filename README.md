@@ -1,71 +1,127 @@
-# AI-Calorie-Tracker
+<h2 align="center">AI-Calorie-Tracker</h2>
 
+<p align="center">
+<img src="https://placehold.co/80x80/047857/ffffff?text=Diet" alt="AI Icon" width="80" />
+</p>
+
+<h4 align="center">An AI-powered tool to analyze your daily diet and provide personalized recommendations.</h4>
+
+<p align="center">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/blob/main/LICENSE" target="_blank">
+<img src="https://img.shields.io/github/license/0228lin/AI-Calorie-Tracker?style=flat-square" alt="licence" />
+</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/fork" target="_blank">
+<img src="https://img.shields.io/github/forks/0228lin/AI-Calorie-Tracker?style=flat-square" alt="forks"/>
+</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/stargazers" target="_blank">
+<img src="https://img.shields.io/github/stars/0228lin/AI-Calorie-Tracker?style=flat-square" alt="stars"/>
+</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues" target="_blank">
+<img src="https://img.shields.io/github/issues/0228lin/AI-Calorie-Tracker?style=flat-square" alt="issues"/>
+</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/pulls" target="_blank">
+<img src="https://img.shields.io/github/issues-pr/0228lin/AI-Calorie-Tracker?style=flat-square" alt="pull-requests"/>
+</a>
+<a href="https://twitter.com/intent/tweet?text=👋%20Check%20out%20this%20amazing%20AI%20Calorie%20Tracker%20project%20https://github.com/0228lin/AI-Calorie-Tracker"><img src="https://img.shields.io/twitter/url?label=Share%20on%20Twitter&style=social&url=https%3A%2F%2Fgithub.com%2F0228lin%2FAI-Calorie-Tracker"></a>
+</p>
+
+<p align="center">
+<a href="https://0228lin.github.io/AI-Calorie-Tracker/" target="_blank">View Demo</a>
+·
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Report Bug</a>
+·
+<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Request Feature</a>
+</p>
 A powerful and intelligent calorie and nutrition tracker that leverages a large language model (LLM) to dynamically fetch food data and provide a personalized, AI-driven analysis of your diet.
 
-## Features
-- **BMI Calculation:** Calculates Body Mass Index (BMI) based on user's height and weight.
-- **Dynamic Nutrition Tracking:** Uses an AI model (like Gemini or GPT) to instantly get nutritional data (calories, protein, carbs, fat) for any food item you input.
-- **AI-Powered Analysis:** Acts as a personal diet assistant, providing detailed feedback on your diet and actionable recommendations for improvement.
-- **Modular and Extensible:** The code is structured for easy modification and is a great foundation for further development.
+-----
 
+## 👋🏻 Introducing `AI-Calorie-Tracker`
 
-## Live Demo
-<br>
-[View Demo](https://your-demo-url.com)
+`AI-Calorie-Tracker` is a tool that uses the power of AI to help you analyze your daily diet and manage your calorie intake. Simply input your food items and let the AI provide a detailed breakdown and personalized health recommendations.
 
-A live version of this application is available for you to try directly in your browser.
+This tool is perfect for anyone who wants to monitor their nutrition, understand their eating habits, and receive smart, data-driven advice.
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/0228lin/AI-Calorie-Tracker.git
-   cd AI-Calorie-Tracker
+## 🚀 Demo
 
-2.  Create a virtual environment and activate it:
+Here is a quick demo of the app. We hope you enjoy it.
 
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
+> [The Demo Link](https://0228lin.github.io/AI-Calorie-Tracker/)
+> <br>
+<a href="https://0228lin.github.io/AI-Calorie-Tracker/">
+  <img alt="View Demo" src="https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen"/>
+</a>
 
-3.  Install the required packages:
+Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.
+_Many Thanks to all the `Stargazers` who has supported this project with stars(⭐)_
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+[![Stargazers repo roster for @0228lin/AI-Calorie-Tracker](https://reporoster.com/stars/0228lin/AI-Calorie-Tracker)](https://github.com/0228lin/AI-Calorie-Tracker/stargazers#gh-light-mode-only)
 
-4.  Set up your API key:
-    Create a `.env` file in the root directory and add your API key:
+[![Stargazers repo roster for @0228lin/AI-Calorie-Tracker](https://reporoster.com/stars/dark/0228lin/AI-Calorie-Tracker)](https://github.com/0228lin/AI-Calorie-Tracker/stargazers#gh-dark-mode-only)
+-----
 
-    ```
-    GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
-    ```
+## 🔥 Features
 
-## Usage
+`AI-Calorie-Tracker` comes with a bundle of features already. You can do the followings with it:
 
-Run the main program from the root directory:
+  * 🍽️ **Analyze Food Items**: Get a detailed calorie and nutritional breakdown of your meals.
+  * 🧠 **AI-Powered Recommendations**: Receive personalized diet and health recommendations based on your input.
+  * 📊 **Track Progress**: Monitor your daily, weekly, and monthly calorie intake.
+  * 📱 **Responsive and Mobile-Friendly**: Use the tracker on any device, from your desktop to your smartphone.
+
+-----
+
+## 📚 How to Use `AI-Calorie-Tracker`
+
+1.  `Go` to the **[live demo page](https://0228lin.github.io/AI-Calorie-Tracker/)**.
+2.  `Enter` your food items or meals into the text input box.
+3.  `Click` on the **"Analyze"** button.
+4.  The AI will process your input and display the nutritional information and recommendations below the form.
+5.  You can continue to add more food items or clear the form to start a new entry.
+
+-----
+
+## 🏗️ How to Set Up `AI-Calorie-Tracker` for Development?
+
+1.  Clone the repository
+
+<!-- end list -->
 
 ```bash
-python -m ai_calorie_tracker.main
+git clone https://github.com/0228lin/AI-Calorie-Tracker.git
 ```
 
-The program will guide you to enter your personal details and daily food intake, then provide a comprehensive AI-generated analysis.
+2.  Change the working directory
 
-## Project Structure
+<!-- end list -->
 
-  - `ai_calorie_tracker/core/calculations.py`: Core logic for all calculations.
-  - `ai_calorie_tracker/ai_analysis/nutritional_data_fetcher.py`: Manages the communication with the AI to get food data.
-  - `ai_calorie_tracker/ai_analysis/gemini_interface.py`: Handles the AI model integration for the final analysis.
-  - `ai_calorie_tracker/main.py`: The main program entry point.
+```bash
+cd AI-Calorie-Tracker
+```
 
+3.  Install the required packages
 
-## Contributing
+<!-- end list -->
 
-We welcome contributions\! Please see our [CONTRIBUTING.md](https://www.google.com/search?q=CONTRIBUTING.md) for details.
+```bash
+pip install -r requirements.txt
+```
+
+4.  Run the development server
+
+<!-- end list -->
+
+```bash
+python app.py
+```
+
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+That's All\!\!\! 
 
 -----
 
