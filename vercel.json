@@ -15,10 +15,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "api/gemini.js": {
-      "runtime": "node18.x"
-    }
-  }
+  ]
 }
