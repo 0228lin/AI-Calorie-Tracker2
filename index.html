@@ -145,13 +145,22 @@
             };
             
             try {
+                // Use fetchWithExponentialBackoff for resilient API calls
                 let response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+
+                // Check for a successful response from the proxy
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                }
                 
                 let result = await response.json();
+                
+                // Check if the result has the expected structure
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
@@ -188,8 +197,9 @@
                 }
             } catch (error) {
                 console.error('Error fetching nutritional data:', error);
-                return null;
+                throw error; // Re-throw the error to be caught by the main handler
             }
+            return null; // Return null if the API response structure is unexpected
         }
         
         // Function to call the proxy for a text-based analysis
@@ -225,6 +235,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API call failed with status ${response.status}: ${errorText}`);
+                }
+
                 let result = await response.json();
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
@@ -269,18 +285,24 @@
                 const fetchedFoodData = [];
 
                 for (const item of foodItemsArray) {
-                    const data = await getNutritionalData(item);
-                    if (data) {
-                        totalCalories += data.calories || 0;
-                        totalProtein += data.protein || 0;
-                        totalCarbs += data.carbohydrates || 0;
-                        totalFat += data.fat || 0;
-                        fetchedFoodData.push(data);
+                    // Catch errors from getNutritionalData to avoid stopping the loop
+                    try {
+                        const data = await getNutritionalData(item);
+                        if (data) {
+                            totalCalories += data.calories || 0;
+                            totalProtein += data.protein || 0;
+                            totalCarbs += data.carbohydrates || 0;
+                            totalFat += data.fat || 0;
+                            fetchedFoodData.push(data);
+                        }
+                    } catch (error) {
+                        console.error(`Failed to get nutritional data for "${item}":`, error);
+                        // We will continue the loop even if one item fails, but we won't add it to the total.
                     }
                 }
                 
                 if (fetchedFoodData.length === 0) {
-                     throw new Error("Could not find nutritional data for any of the food items you listed. Please try with different descriptions.");
+                     throw new Error("Could not find nutritional data for any of the food items you listed. The API may have failed. Please check the console for more details.");
                 }
 
                 // Calculate BMI and prepare user data
