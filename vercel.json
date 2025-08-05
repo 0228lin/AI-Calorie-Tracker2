@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/api/gemini",
+      "source": "/api/(.*)",
       "destination": "/api/gemini.js"
     }
   ],
@@ -15,5 +15,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/gemini.js": {
+      "runtime": "node18.x"
+    }
+  }
 }
