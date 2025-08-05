@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
+      "source": "/api/gemini",
+      "destination": "/api/gemini.js"
     }
   ],
   "headers": [
