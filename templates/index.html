@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calorie Tracker</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; line-height: 1.6; }
+        form div { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input[type="text"], textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        input[type="submit"] { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>AI Calorie Tracker</h1>
+    <p>Enter your details and a list of food items to get a personalized AI-driven analysis of your diet.</p>
+
+    <form action="/analyze" method="post">
+        <div>
+            <label for="height">Height (in cm):</label>
+            <input type="text" id="height" name="height" required>
+        </div>
+        <div>
+            <label for="weight">Weight (in kg):</label>
+            <input type="text" id="weight" name="weight" required>
+        </div>
+        <div>
+            <label for="food_items">Food items consumed today (one item per line):</label>
+            <textarea id="food_items" name="food_items" rows="10" required placeholder="1 large apple&#10;100g cooked chicken breast&#10;1 serving of brown rice"></textarea>
+        </div>
+        <div>
+            <input type="submit" value="Get Analysis">
+        </div>
+    </form>
+</body>
+</html>
