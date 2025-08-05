@@ -122,14 +122,26 @@
 
         // Function to call the Gemini API for a structured JSON response
         async function getNutritionalData(foodItem) {
-            // The prompt has been updated to be more explicit, asking for only the JSON object.
             const prompt = `Provide the nutritional data for "${foodItem}" as a single JSON object. The object must contain the following keys: "food_item" (string), "calories" (number), "protein" (number), "carbohydrates" (number), and "fat" (number). The units should be kcal and grams. If you cannot find the data, return a JSON with a single key "error" and a description. Do not include any other text or conversational elements outside of the JSON object.`;
             
             const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = {
                 contents: chatHistory,
-                // The structured schema is removed here to allow for more flexible parsing
-                // which is more robust to slight variations in the model's output.
+                // Re-enabling the structured JSON response for reliability.
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "food_item": { "type": "STRING" },
+                            "calories": { "type": "NUMBER" },
+                            "protein": { "type": "NUMBER" },
+                            "carbohydrates": { "type": "NUMBER" },
+                            "fat": { "type": "NUMBER" }
+                        },
+                        "propertyOrdering": ["food_item", "calories", "protein", "carbohydrates", "fat"]
+                    }
+                }
             };
             
             const apiKey = "AIzaSyDWvOfkxwS7LHBKRFO3SKl9BKTibfnZGls";
@@ -148,10 +160,8 @@
                     result.candidates[0].content.parts.length > 0) {
                     const jsonString = result.candidates[0].content.parts[0].text;
                     
-                    // A try-catch block is used to gracefully handle potential JSON parsing errors.
                     try {
                         const parsedData = JSON.parse(jsonString);
-                        // Check for a specific 'error' key in the response from the API
                         if (parsedData.error) {
                             console.error(`Error from API: ${parsedData.error}`);
                             return null;
@@ -159,7 +169,7 @@
                         return parsedData;
                     } catch (e) {
                         console.error('Failed to parse JSON from API response:', jsonString, e);
-                        return null; // Return null if parsing fails
+                        return null;
                     }
                 }
             } catch (error) {
