@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-<a href="https://g.co/gemini/share/ef332d00e90e" target="_blank">View Demo</a>
+<a href="https://0228lin.github.io/AI-Calorie-Tracker/" target="_blank">View Demo</a>
 ·
 <a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Report Bug</a>
 ·
