@@ -11,19 +11,35 @@ export default async function handler(request, response) {
     }
 
     try {
+        // Create a new instance of the GoogleGenerativeAI with your API key
         const genAI = new GoogleGenerativeAI(apiKey);
+        
+        // Extract the prompt and generationConfig from the request body
         const { prompt, generationConfig } = request.body;
 
         if (!prompt) {
             return response.status(400).json({ error: 'Prompt is required.' });
         }
 
-        // Use the gemini-2.5-flash-preview-05-20 model for text generation
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-05-20", generationConfig });
+        // Use the gemini-2.5-flash-preview-05-20 model
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-05-20" });
 
-        const result = await model.generateContent(prompt);
+        // This is the fix: The model expects a structured request payload.
+        // We reconstruct the payload here with the prompt and optional generationConfig.
+        const payload = {
+            contents: [{
+                role: "user",
+                parts: [{ text: prompt }]
+            }],
+        };
         
-        // This is the fix: return the full result object, not just a partial response.
+        if (generationConfig) {
+            payload.generationConfig = generationConfig;
+        }
+
+        const result = await model.generateContent(payload);
+        
+        // Return the full result object back to the frontend
         response.status(200).json(result);
 
     } catch (error) {
