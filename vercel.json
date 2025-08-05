@@ -18,7 +18,7 @@
   ],
   "functions": {
     "api/gemini.js": {
-      "runtime": "node.js18.x"
+      "runtime": "node18.x"
     }
   }
 }
