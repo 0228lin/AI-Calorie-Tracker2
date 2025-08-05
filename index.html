@@ -125,7 +125,7 @@
             const prompt = `Provide the nutritional data for "${foodItem}" as a single JSON object. The object must contain the following keys: "food_item" (string), "calories" (number), "protein" (number), "carbohydrates" (number), and "fat" (number). The units should be kcal and grams. If you cannot find the data, return a JSON with a single key "error" and a description. Do not include any other text or conversational elements outside of the JSON object.`;
             
             // The API call is now directed to the backend proxy
-            const apiUrl = '/api/gemini';
+            const apiUrl = '/api/gemini.js';
             const payload = {
                 prompt,
                 generationConfig: {
