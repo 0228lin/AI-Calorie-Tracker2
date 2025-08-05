@@ -84,12 +84,9 @@
         const aiAnalysisDiv = document.getElementById('ai-analysis');
         const messageBox = document.getElementById('message-box');
         
-        // Hide a specific element
         const hideElement = (element) => element.classList.add('hidden');
-        // Show a specific element
         const showElement = (element) => element.classList.remove('hidden');
 
-        // Display a message in the message box
         const showMessage = (message, type = 'error') => {
             messageBox.textContent = message;
             if (type === 'error') {
@@ -100,7 +97,6 @@
             showElement(messageBox);
         };
         
-        // Helper function for exponential backoff retry logic
         async function fetchWithExponentialBackoff(url, options, retries = 3, delay = 1000) {
             try {
                 const response = await fetch(url, options);
@@ -120,11 +116,9 @@
             }
         }
 
-        // Function to call the proxy for a structured JSON response
         async function getNutritionalData(foodItem) {
             const prompt = `Provide the nutritional data for "${foodItem}" as a single JSON object. The object must contain the following keys: "food_item" (string), "calories" (number), "protein" (number), "carbohydrates" (number), and "fat" (number). The units should be kcal and grams. If you cannot find the data, return a JSON with a single key "error" and a description. Do not include any other text or conversational elements outside of the JSON object.`;
             
-            // The API call is now directed to the backend proxy
             const apiUrl = '/api/gemini';
             const payload = {
                 prompt,
@@ -143,16 +137,17 @@
                     }
                 }
             };
+
+            // This is the new log to see if the fetch call is being made.
+            console.log('Attempting to fetch nutritional data from /api/gemini with payload:', payload);
             
             try {
-                // Use fetchWithExponentialBackoff for resilient API calls
                 let response = await fetchWithExponentialBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                // Check for a successful response from the proxy
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(`API call failed with status ${response.status}: ${errorText}`);
@@ -160,14 +155,12 @@
                 
                 let result = await response.json();
                 
-                // Check if the result has the expected structure
                 if (result && result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     let jsonString = result.candidates[0].content.parts[0].text;
                     
                     try {
-                        // First, try to parse the string directly.
                         const parsedData = JSON.parse(jsonString);
                         if (parsedData.error) {
                             console.error(`Error from API: ${parsedData.error}`);
@@ -175,7 +168,6 @@
                         }
                         return parsedData;
                     } catch (e) {
-                        // If direct parsing fails, try to extract a JSON code block from the response.
                         console.error('Failed to parse JSON directly. Attempting to extract from markdown block:', jsonString);
                         const codeBlockMatch = jsonString.match(/```json\n([\s\S]*?)\n```/);
                         if (codeBlockMatch && codeBlockMatch[1]) {
@@ -197,12 +189,11 @@
                 }
             } catch (error) {
                 console.error('Error fetching nutritional data:', error);
-                throw error; // Re-throw the error to be caught by the main handler
+                throw error;
             }
-            return null; // Return null if the API response structure is unexpected
+            return null;
         }
         
-        // Function to call the proxy for a text-based analysis
         async function getAIAnalysis(userData) {
             const prompt = `
             Analyze the following user data and provide a detailed, actionable diet analysis.
@@ -225,7 +216,6 @@
             Please provide the analysis in a single, well-structured paragraph or a short list.
             `;
             
-            // The API call is now directed to the backend proxy
             const apiUrl = '/api/gemini';
             const payload = { prompt };
             
@@ -253,17 +243,14 @@
             }
         }
 
-        // Main form submission handler
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Reset UI states
             hideElement(resultsDiv);
             hideElement(messageBox);
             showElement(loadingIndicator);
 
             try {
-                // Get user input from the form
                 const height_cm = parseFloat(document.getElementById('height').value);
                 const weight_kg = parseFloat(document.getElementById('weight').value);
                 const foodItemsInput = document.getElementById('food-items').value;
@@ -277,7 +264,6 @@
                     throw new Error("Please enter at least one food item.");
                 }
 
-                // Fetch nutritional data for each food item
                 let totalCalories = 0;
                 let totalProtein = 0;
                 let totalCarbs = 0;
@@ -285,7 +271,6 @@
                 const fetchedFoodData = [];
 
                 for (const item of foodItemsArray) {
-                    // Catch errors from getNutritionalData to avoid stopping the loop
                     try {
                         const data = await getNutritionalData(item);
                         if (data) {
@@ -297,7 +282,6 @@
                         }
                     } catch (error) {
                         console.error(`Failed to get nutritional data for "${item}":`, error);
-                        // We will continue the loop even if one item fails, but we won't add it to the total.
                     }
                 }
                 
@@ -305,7 +289,6 @@
                      throw new Error("Could not find nutritional data for any of the food items you listed. The API may have failed. Please check the console for more details.");
                 }
 
-                // Calculate BMI and prepare user data
                 const height_m = height_cm / 100;
                 const bmi = weight_kg / (height_m * height_m);
                 const bmi_category = bmi < 18.5 ? "Underweight" :
@@ -323,10 +306,8 @@
                     total_fat: totalFat
                 };
 
-                // Get AI analysis
                 const aiAnalysisText = await getAIAnalysis(userData);
 
-                // Populate and display results
                 summaryDetails.innerHTML = `
                     <p><strong>Height:</strong> ${height_cm} cm</p>
                     <p><strong>Weight:</strong> ${weight_kg} kg</p>
