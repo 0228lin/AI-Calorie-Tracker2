@@ -22,13 +22,12 @@ export default async function handler(request, response) {
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-05-20", generationConfig });
 
         const result = await model.generateContent(prompt);
-        const textResponse = await result.response;
         
-        response.status(200).json(textResponse);
+        // This is the fix: return the full result object, not just a partial response.
+        response.status(200).json(result);
 
     } catch (error) {
         console.error('Proxy error:', error);
         response.status(500).json({ error: 'An error occurred during the API call.' });
     }
 }
-
