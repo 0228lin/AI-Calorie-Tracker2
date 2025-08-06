@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-<a href="https://0228lin.github.io/AI-Calorie-Tracker/" target="_blank">View Demo</a>
+<a href="https://ai-calorie-tracker2.vercel.app/" target="_blank">View Demo</a>
 ·
 <a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Report Bug</a>
 ·
@@ -46,9 +46,9 @@ This tool is perfect for anyone who wants to monitor their nutrition, understand
 
 Here is a quick demo of the app. I hope you enjoy it.
 
-> [The Demo Link](https://0228lin.github.io/AI-Calorie-Tracker/)
+> [The Demo Link](https://ai-calorie-tracker2.vercel.app/)
 > <br>
-<a href="https://0228lin.github.io/AI-Calorie-Tracker/">
+<a href="https://ai-calorie-tracker2.vercel.app/">
   <img alt="View Demo" src="https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen"/>
 </a>
 
