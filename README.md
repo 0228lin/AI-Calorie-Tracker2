@@ -7,19 +7,19 @@
 <h4 align="center">An AI-powered tool to analyze your daily diet and provide personalized recommendations.</h4>
 
 <p align="center">
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/blob/main/LICENSE" target="_blank">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/blob/main/LICENSE" target="_blank">
 <img src="https://img.shields.io/github/license/0228lin/AI-Calorie-Tracker?style=flat-square" alt="licence" />
 </a>
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/fork" target="_blank">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/fork" target="_blank">
 <img src="https://img.shields.io/github/forks/0228lin/AI-Calorie-Tracker?style=flat-square" alt="forks"/>
 </a>
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/stargazers" target="_blank">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/stargazers" target="_blank">
 <img src="https://img.shields.io/github/stars/0228lin/AI-Calorie-Tracker?style=flat-square" alt="stars"/>
 </a>
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues" target="_blank">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/issues" target="_blank">
 <img src="https://img.shields.io/github/issues/0228lin/AI-Calorie-Tracker?style=flat-square" alt="issues"/>
 </a>
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/pulls" target="_blank">
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/pulls" target="_blank">
 <img src="https://img.shields.io/github/issues-pr/0228lin/AI-Calorie-Tracker?style=flat-square" alt="pull-requests"/>
 </a>
 <a href="https://twitter.com/intent/tweet?text=👋%20Check%20out%20this%20amazing%20AI%20Calorie%20Tracker%20project%20https://github.com/0228lin/AI-Calorie-Tracker"><img src="https://img.shields.io/twitter/url?label=Share%20on%20Twitter&style=social&url=https%3A%2F%2Fgithub.com%2F0228lin%2FAI-Calorie-Tracker"></a>
@@ -29,9 +29,9 @@
 <!-- Remember to update this with your actual Vercel deployment URL after deploying -->
 <a href="https://ai-calorie-tracker2.vercel.app/" target="_blank">View Demo</a>
 ·
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Report Bug</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/issues/new/choose" target="_blank">Report Bug</a>
 ·
-<a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Request Feature</a>
+<a href="https://github.com/0228lin/AI-Calorie-Tracker2/issues/new/choose" target="_blank">Request Feature</a>
 </p>
 A powerful and intelligent calorie and nutrition tracker that leverages a large language model (LLM) to dynamically fetch food data and provide a personalized, AI-driven analysis of your diet.
 
