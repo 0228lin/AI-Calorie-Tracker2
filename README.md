@@ -74,11 +74,11 @@ Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.  
 
 ## 📚 How to Use `AI-Calorie-Tracker`
 
-1\.  `Go` to the [**live demo page**](https://ai-calorie-tracker2.vercel.app/).
-2.  `Enter` your height, weight and food items into the text input box.
-3.  `Click` on the **"Get Analysis"** button.
-4.  The AI will process your input and display the nutritional information and recommendations below the form.
-5.  You can continue to add more food items or clear the form to start a new entry.
+1\.  `Go` to the [**live demo page**](https://ai-calorie-tracker2.vercel.app/).  
+2.  `Enter` your height, weight and food items into the text input box.  
+3.  `Click` on the **"Get Analysis"** button.  
+4.  The AI will process your input and display the nutritional information and recommendations below the form.  
+5.  You can continue to add more food items or clear the form to start a new entry.  
 
 -----
 
