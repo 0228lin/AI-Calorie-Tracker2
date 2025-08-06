@@ -26,6 +26,7 @@
 </p>
 
 <p align="center">
+<!-- Remember to update this with your actual Vercel deployment URL after deploying -->
 <a href="https://ai-calorie-tracker2.vercel.app/" target="_blank">View Demo</a>
 ·
 <a href="https://github.com/0228lin/AI-Calorie-Tracker/issues/new/choose" target="_blank">Report Bug</a>
@@ -46,14 +47,14 @@ This tool is perfect for anyone who wants to monitor their nutrition, understand
 
 Here is a quick demo of the app. I hope you enjoy it.
 
-> [The Demo Link](https://ai-calorie-tracker2.vercel.app/)
+> [The Demo Link](https://ai-calorie-tracker2.vercel.app/) 
 > <br>
 <a href="https://ai-calorie-tracker2.vercel.app/">
-  <img alt="View Demo" src="https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen"/>
+  <img alt="View Demo" src="https://img.shields.io/badge/Try%20it%20now-View%20Demo-brightgreen"/>
 </a>
 
-Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.  
-_Many Thanks to all the `Stargazers` who has supported this project with stars(⭐)_
+Liked it? Please give a ⭐️ to **AI-Calorie-Tracker**.  
+*Many Thanks to all the `Stargazers` who have supported this project with stars(⭐)*
 
 [![Stargazers repo roster for @0228lin/AI-Calorie-Tracker](https://reporoster.com/stars/0228lin/AI-Calorie-Tracker)](https://github.com/0228lin/AI-Calorie-Tracker/stargazers#gh-light-mode-only)
 
@@ -64,57 +65,88 @@ _Many Thanks to all the `Stargazers` who has supported this project with stars(�
 
 `AI-Calorie-Tracker` comes with a bundle of features already. You can do the followings with it:
 
-  * 🍽️ **Analyze Food Items**: Get a detailed calorie and nutritional breakdown of your meals.
-  * 🧠 **AI-Powered Recommendations**: Receive personalized diet and health recommendations based on your input.
-  * 📊 **Track Progress**: Monitor your daily, weekly, and monthly calorie intake.
-  * 📱 **Responsive and Mobile-Friendly**: Use the tracker on any device, from your desktop to your smartphone.
+  * 🍽️ **Analyze Food Items**: Get a detailed calorie and nutritional breakdown of your meals.  
+  * 🧠 **AI-Powered Recommendations**: Receive personalized diet and health recommendations based on your input.  
+  * 📊 **Track Progress**: Monitor your daily, weekly, and monthly calorie intake.  
+  * 📱 **Responsive and Mobile-Friendly**: Use the tracker on any device, from your desktop to your smartphone.  
 
 -----
 
 ## 📚 How to Use `AI-Calorie-Tracker`
 
-1.  `Go` to the **[live demo page](https://0228lin.github.io/AI-Calorie-Tracker/)**.
-2.  `Enter` your height, weight and food items into the text input box.
-3.  `Click` on the **"Analyze"** button.
-4.  The AI will process your input and display the nutritional information and recommendations below the form.
-5.  You can continue to add more food items or clear the form to start a new entry.
+1\.  `Go` to the [**live demo page**](https://ai-calorie-tracker2.vercel.app/).
+2.  `Enter` your height, weight and food items into the text input box.
+3.  `Click` on the **"Get Analysis"** button.
+4.  The AI will process your input and display the nutritional information and recommendations below the form.
+5.  You can continue to add more food items or clear the form to start a new entry.
 
 -----
 
 ## 🏗️ How to Set Up `AI-Calorie-Tracker` for Development?
 
-1.  Clone the repository
+This project is configured for deployment with **Vercel**. Here are the steps to set it up:
 
-<!-- end list -->
+1.  **Clone the repository**
 
-```bash
-git clone https://github.com/0228lin/AI-Calorie-Tracker.git
-```
+    ```bash
+    git clone [https://github.com/0228lin/AI-Calorie-Tracker2.git](https://github.com/0228lin/AI-Calorie-Tracker2.git)
+    ```
 
-2.  Change the working directory
+2.  **Navigate to the project directory**
 
-<!-- end list -->
+    ```bash
+    cd AI-Calorie-Tracker
+    ```
 
-```bash
-cd AI-Calorie-Tracker
-```
+3.  **Install Vercel Function dependencies**
+    Navigate into the `api` directory and install its dependencies:
 
-3.  Install the required packages
+    ```bash
+    cd api
+    npm install
+    cd .. # Go back to the root directory
+    ```
 
-<!-- end list -->
+4.  **Create a `.env` file for local development**
+    In the **root** of your project, create a file named `.env` and add your Gemini API key:
+    ```
+    GEMINI_API_KEY="YOUR_API_KEY_HERE"
+    ```
+    **Remember: Do NOT commit this `.env` file to your public GitHub repository! It's already in `.gitignore`.**
 
-```bash
-pip install -r requirements.txt
-```
+5.  **Run locally (optional, requires Vercel CLI)**
+    * Install Vercel CLI globally if you haven't already: `npm install -g vercel`
+    * From the **root** of your project, run: `vercel dev`
+    * This will start a local development server, and your API functions will be available.
 
-4.  Run the development server
+## 🚀 How to Deploy to Vercel
 
-<!-- end list -->
+1.  **Push your code to GitHub:** Ensure your project, with the structure and files (including `vercel.json` and the `api` folder) are pushed to a GitHub repository.
 
-```bash
-python app.py
-```
+2.  **Sign up or Log in to Vercel:** Go to [Vercel.com](https://vercel.com/) and sign in. You can sign up directly with your GitHub account for easy integration.
 
+3.  **Import Your Project:**
+    * On your Vercel dashboard, click "Add New..." then "Project".
+    * Choose "Import Git Repository" and select your `AI-Calorie-Tracker` repository from GitHub.
+
+4.  **Configure Project Settings:**
+    * Vercel will usually auto-detect your project settings.
+    * Ensure the **Root Directory** is set to `/` (the root of your repository).
+    * Under **"Framework Preset"** (in the "Build & Development Settings"), select **"Other"**.
+    * For **"Output Directory,"** **set this to `.`** (a single dot). This tells Vercel that your `index.html` is directly in the root of the project.
+
+5.  **Set Environment Variables:**
+    * Before deploying, go to the "Environment Variables" section in your Vercel project settings.
+    * Add a new environment variable:
+        * **Name:** `GEMINI_API_KEY`
+        * **Value:** Paste your actual Gemini API key here.
+    * Make sure this variable is configured for the "Production" and "Preview" environments.
+
+6.  **Deploy:** Click the "Deploy" button. Vercel will build and deploy your static site and serverless functions.
+
+7.  **Access Your Demo:** Once the deployment is complete, Vercel will provide you with a unique URL (e.g., `https://your-project-name.vercel.app`). **This is the URL you should share with your users for the live demo.** It will be fully functional, with the API key securely handled by the Vercel serverless function.
+
+---
 
 ## License
 
